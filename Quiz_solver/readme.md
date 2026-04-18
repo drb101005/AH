@@ -30,8 +30,8 @@ This script is designed for **educational and testing purposes only** to help te
    const API_KEY = "gsk_YOUR_API_KEY_HERE";
    ```
 
-### Step 3: Run on Moodle Quiz Page
-1. Navigate to your Moodle quiz page
+### Step 3: Run on  Quiz Page
+1. Navigate to your quiz page
 2. Open **Developer Tools** (Press `F12` or `Right-click → Inspect`)
 3. Go to the **Console** tab
 4. Copy and paste the entire script
@@ -131,7 +131,7 @@ This project is provided as-is for educational purposes.
 ## 📞 Contact & Social
 
 - **GitHub:** [drb101005](https://github.com/drb101005)
-- **Repository:** [AH/Moodle_quiz_solver](https://github.com/drb101005/AH/tree/main/Moodle_quiz_solver)
+- **Repository:** [AH/Quiz_solver](https://github.com/drb101005/AH/tree/main/Quiz_solver)
 
 ---
 **Made with ❤️ for educational testing**
