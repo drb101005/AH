@@ -1,18 +1,17 @@
-# 📚 Moodle Quiz Solver
+# 📚Quiz Solver
 
 > **Educational Testing Tool for Quality Assurance**
 
-This script is designed for **educational and testing purposes only** to help testers efficiently validate Moodle quiz functionality.
+This script is designed for **educational and testing purposes only** to help testers efficiently validate quiz functionality.
 
 ---
 
 ## ⚠️ Disclaimer
 
 **This script is only for educational purposes.** It is intended for:
-- Testing and quality assurance of Moodle quiz systems
+- Testing and quality assurance of quiz systems
 - Educational research
 - Authorized testing environments only
-
 **Do not use this on live academic assessments or any unauthorized platforms.**
 
 ---
@@ -20,9 +19,9 @@ This script is designed for **educational and testing purposes only** to help te
 ## 🚀 Quick Start
 
 ### Step 1: Get Groq API Key
-1. Visit [Groq Console](https://console.groq.com)
+1. Visit [Groq Console] (https://console.groq.com/keys)
 2. Sign up for a free account
-3. Copy your API key
+3. Genrate and Copy your API key
 
 ### Step 2: Set Up the Script
 1. Open the `groq_quiz_solver.js` file
@@ -37,21 +36,19 @@ This script is designed for **educational and testing purposes only** to help te
 3. Go to the **Console** tab
 4. Copy and paste the entire script
 5. Press **Enter**
+(You might get a warning about not pasting code you are not sure about
+Just type "allow pasting")
 
 ### Step 4: Watch It Work
 - Script will automatically answer all visible questions
 - Click "Next page" or "Finish attempt" button when prompted
-- **For multi-page quizzes: Run the script on EACH page**
+- **For multi-page quizzes: Run the script on EACH page(just spam the ⬆️ and hit enter)**
 
 ---
 
 ## 📋 How It Works
 
-1. **Parses Questions** - Extracts question text and options from the page
-2. **Calls Groq API** - Sends questions to Groq's AI model (llama-3.3-70b)
-3. **Selects Answers** - Automatically clicks the correct option(s)
-4. **Navigates Pages** - Clicks "Next page" or "Finish attempt" button
-
+Extracts questions → sends to AI → auto-selects answers
 ---
 
 ## ✨ Features
@@ -59,7 +56,6 @@ This script is designed for **educational and testing purposes only** to help te
 ✅ **Multi-page quiz support** - Run on each page individually  
 ✅ **Multiple answer types** - Handles radio buttons and checkboxes  
 ✅ **Fast & reliable** - Uses Groq's fast API  
-✅ **Detailed logging** - See exactly what's happening in console  
 ✅ **Error handling** - Gracefully handles parsing errors  
 
 ---
@@ -77,7 +73,7 @@ This script is designed for **educational and testing purposes only** to help te
 ### Troubleshooting
 
 **"No questions found"**
-- Make sure you're on a Moodle quiz page with questions visible
+- Make sure you're on a quiz page with questions visible
 
 **"Error: Could not parse answer"**
 - Some questions may not have extractable answers
@@ -100,21 +96,6 @@ This script is designed for **educational and testing purposes only** to help te
 
 ---
 
-## 📖 Example Console Output
-
-```
-[Groq Quiz Solver] Starting — model: llama-3.3-70b-versatile
-[Groq Quiz Solver] 📚 Educational Testing Tool
-[Groq Quiz Solver] Found 1 question(s)
-[Groq Quiz Solver] Q1: querying Groq...
-[Groq Quiz Solver] → "Which of the following is invalid..."
-[Groq Quiz Solver] ✓ Selected: "Many to Many multithreading model"
-[Groq Quiz Solver] All questions answered — checking for next/finish button...
-[Groq Quiz Solver] → Clicking Next page button
-```
-
----
-
 ## 🤝 Contributing
 
 Found a bug? Have suggestions? Feel free to:
@@ -126,12 +107,12 @@ Found a bug? Have suggestions? Feel free to:
 
 ## ⭐ Support This Project
 
-If this tool helped you test Moodle quizzes effectively, please:
+If this tool helped you test quizzes effectively, please:
 
 1. **Star the repository** ⭐  
    👉 [github.com/drb101005/AH](https://github.com/drb101005/AH)
 
-2. **Share with other testers**
+2. **Share with other :D**
 
 3. **Follow for updates**
 
@@ -145,20 +126,6 @@ This project is provided as-is for educational purposes.
 
 ---
 
-## 🙋 FAQ
-
-**Q: Is this legal?**  
-A: Yes, for authorized testing environments. Always have permission before running automated tools.
-
-**Q: Does it work on all Moodle versions?**  
-A: Works on modern Moodle versions (3.0+). Some older versions may need selector adjustments.
-
-**Q: How many API calls does it use?**  
-A: One API call per question. A 10-question quiz uses ~10 API calls.
-
-**Q: Is my data safe?**  
-A: Questions are sent to Groq's API. Use your own Groq API key for privacy.
-
 ---
 
 ## 📞 Contact & Social
@@ -167,7 +134,4 @@ A: Questions are sent to Groq's API. Use your own Groq API key for privacy.
 - **Repository:** [AH/Moodle_quiz_solver](https://github.com/drb101005/AH/tree/main/Moodle_quiz_solver)
 
 ---
-
 **Made with ❤️ for educational testing**
-
-*Last updated: April 2026*
