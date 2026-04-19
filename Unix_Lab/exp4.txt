@@ -1,0 +1,55 @@
+EXP : 4
+
+User Management Commands
+
+cmd :
+whoami -> Displays the current system's username
+Example: whoami
+
+who -> Shows information about users logged into the system
+Example: who , who -u , who -b
+
+w -> Shows logged-in users and what they are doing
+Example: w , w username
+
+sudo -> Execute command with superuser/elevated privileges
+Example: sudo apt update , sudo useradd john , sudo cat /etc/shadow
+
+su -> Switch to another user account (run shell as another user)
+Example: su , su root , su - username
+
+exit -> Exit the current shell
+Example: exit , exit 0
+
+passwd -> Set or change user password
+Example: passwd , passwd username
+
+groupadd -> Create/add a new group in the system
+*Example: sudo groupadd developers , sudo groupadd -g 1001 admin*
+
+groups -> Display groups that the current user belongs to
+Example: groups , groups username
+
+usermod -> Modify user account (edit group membership, etc.)
+Example: sudo usermod -aG developers john , sudo usermod -L john
+
+groupmod -> Change the name of an existing group
+Example: sudo groupmod -n newname oldname
+
+groupdel -> Delete a group permanently from the system
+Example: sudo groupdel developers
+
+useradd -> Add a new user account to the system
+Example: sudo useradd john , sudo useradd -m john , sudo useradd -g developers john
+
+userdel -> Delete a user account and related files
+Example: sudo userdel john , sudo userdel -r john
+
+chown -> Change file owner or group
+Example: sudo chown john file.txt , sudo chown john:developers file.txt , sudo chown -R john: /home/john
+
+chage -> View and change user password expiry information
+*Example: sudo chage -l john , sudo chage -M 30 john , sudo chage -E 2025-12-31 john*
+
+chfn -> Change user's finger information (name, details)
+Example: chfn , sudo chfn john

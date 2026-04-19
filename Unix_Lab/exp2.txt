@@ -1,0 +1,36 @@
+EXP : 2A 
+Add a one liner explanation after each cmd to tell about its use for viva
+cmd : 
+man  -> To view all cmds 
+whoami -> View User
+which -> To find where the cmd lives , ex which python3
+echo -> To Print something , ex echo "drb"
+history -> To get list of all the cmds which have been run before
+clear -> Used to clear the terminal
+id -> To get id of users , ex -g 
+pwd -> Prints Working dir
+date -> gives date + time
+uptime -> how long system is active
+cal -> To show Calender
+cat 'file_name' -> To see file content 
+ping 'website_link/ip'
+
+EXP : 2B 
+VI editor 
+vi file_name -> To create the file 
+press a and start typing esc +:wq
+now open the vi again
+
+h - cursor left
+l - cursor right
+j - cursor down
+k - cursor up
+x - delete character under cursor
+i - insert text before cursor
+o - open new blank line below cursor
+dd - delete entire line
+dw - delete word from cursor position
+:w - save the file
+$ - move cursor to end of line
+
+

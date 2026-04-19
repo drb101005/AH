@@ -1,0 +1,37 @@
+EXP : 5
+
+Process Management Commands
+
+cmd :
+fg -> Bring a stopped or background job to the foreground
+Example: fg , fg %1 , fg jobname
+
+& -> Run a job in the background (ampersand at end of command)
+Example: sleep 100 & , gedit & , firefox &
+
+Ctrl+Z -> Suspend the currently running foreground job (keyboard shortcut)
+Example: Press Ctrl+Z while a command is running
+
+bg -> Resume a suspended job and run it in the background
+Example: bg , bg %1
+
+top -> Display all running processes with real-time updates
+Example: top , top -u username , Press 'q' to exit
+
+ps -> Display process status (list currently running processes)
+Example: ps , ps ux , ps aux , ps -ef
+
+pstree -> Display running processes as a tree (shows process hierarchy)
+Example: pstree , pstree -p , pstree username
+
+nice -> Launch a process with modified scheduling priority (lower priority)
+*Example: nice -n 10 ./script.sh , nice -10 command , nice -n 19 command*
+
+renice -> Change scheduling priority of an already running process
+*Example: sudo renice -n 5 -p 1234 , renice +10 -u username*
+
+kill -> Terminate a process by specifying its PID
+*Example: kill 1234 , kill -9 1234 , kill -TERM 1234*
+
+killall -> Terminate all processes by name
+*Example: killall firefox , killall -9 chrome , killall sleep*

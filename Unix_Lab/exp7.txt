@@ -1,0 +1,79 @@
+EXP : 7
+
+Basic Programs of Shell Scripting
+
+Shell Script Basics:
+
+cmd :
+vi scriptname.sh -> Create a shell script file using vi editor
+Example: vi myscript.sh
+
+#! /bin/sh -> Shebang operator - directs script to interpreter location (bourne-shell)
+Example: #! /bin/sh (must be first line of script)
+
+bash filename.sh -> Execute the shell script
+Example: bash myscript.sh
+
+chmod +x -> Make shell script executable
+Example: chmod +x myscript.sh , ./myscript.sh
+
+Program 1: Arithmetic Operations Script
+
+#! /bin/sh
+echo "Enter first number: "
+read a
+echo "Enter second number: "
+read b
+sum=`expr $a + $b`
+diff=`expr $a - $b`
+mul=`expr $a \* $b`
+div=`expr $a / $b`
+echo "Sum = $sum"
+echo "Difference = $diff"
+echo "Multiplication = $mul"
+echo "Division = $div"
+
+Program 2: Simple Interest Calculator
+
+#! /bin/sh
+echo "Enter Principal Amount: "
+read p
+echo "Enter Rate of Interest: "
+read r
+echo "Enter Time (in years): "
+read t
+si=`expr $p \* $r \* $t / 100`
+echo "Simple Interest = $si"
+
+
+Program 3: Largest Among Three Numbers
+
+#! /bin/sh
+echo "Enter first number: "
+read a
+echo "Enter second number: "
+read b
+echo "Enter third number: "
+read c
+if [ $a -gt $b ] && [ $a -gt $c ]
+then
+    echo "$a is largest"
+elif [ $b -gt $a ] && [ $b -gt $c ]
+then
+    echo "$b is largest"
+else
+    echo "$c is largest"
+fi
+Quick Reference Sheet:
+
+Steps to Create and Run a Shell Script:
+
+vi filename.sh -> Create file with .sh extension
+
+#! /bin/sh -> Start script with shebang
+
+Write code
+
+Save with :wq
+
+bash filename.sh -> Execute script

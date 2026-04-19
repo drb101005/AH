@@ -1,0 +1,113 @@
+EXP : 12
+
+Task Scheduling using Crontab
+
+cmd :
+crontab -> Manage cron jobs (scheduled tasks), ex crontab -l
+crontab -e -> Edit the crontab file to add/modify scheduled jobs, ex crontab -e
+crontab -l -> List all scheduled cron jobs for current user, ex crontab -l
+crontab -r -> Remove all cron jobs for current user, ex crontab -r
+crontab -u -> Edit crontab for another user (requires root), ex sudo crontab -u username -e
+
+Crontab Syntax:
+
+text
+* * * * * command_to_execute
+│ │ │ │ │
+│ │ │ │ └─── Day of week (0-7, 0 and 7 = Sunday)
+│ │ │ └───── Month (1-12)
+│ │ └─────── Day of month (1-31)
+│ └───────── Hour (0-23)
+└─────────── Minute (0-59)
+Special Characters:
+
+Character	Meaning	Example
+*	Any value (all possible values)	* in hour = every hour
+,	List of values	1,15,30 in minute
+-	Range of values	1-5 in day of week
+*/n	Every n interval	*/5 in minute = every 5 minutes
+Common Crontab Examples:
+
+bash
+# Run every minute
+* * * * * /path/to/script.sh
+
+# Run every 5 minutes
+*/5 * * * * /path/to/script.sh
+
+# Run at 20:00 (8 PM) every day
+0 20 * * * /path/to/script.sh
+
+# Run every Monday at 9 AM
+0 9 * * 1 /path/to/script.sh
+
+# Run on 1st of every month at midnight
+0 0 1 * * /path/to/script.sh
+
+# Run every hour at 30 minutes past
+30 * * * * /path/to/script.sh
+
+# Run at 2:30 PM every Friday
+30 14 * * 5 /path/to/script.sh
+Step-by-Step Process for Experiment:
+
+Step 1: Create a script to create a file at a given location
+
+bash
+#! /bin/sh
+touch /home/user/Desktop/cron_test_$(date +%Y%m%d_%H%M%S).txt
+echo "File created at $(date)" >> /home/user/Desktop/cron_log.txt
+Step 2: Give executable permission to the user
+
+bash
+chmod +x /path/to/script.sh
+Step 3: Edit the crontab file
+
+bash
+crontab -e
+Step 4: Add cron job to execute script every 5 minutes at 20:00 (8 PM) every day
+
+bash
+*/5 20 * * * /path/to/script.sh
+Step 5: Check after 5 minutes whether file is created or not
+
+bash
+ls -la /home/user/Desktop/
+cat /home/user/Desktop/cron_log.txt
+System Health Monitoring Script:
+
+bash
+#! /bin/sh
+LOG_FILE="/home/user/system_health.log"
+
+echo "========== $(date) ==========" >> $LOG_FILE
+
+# CPU Usage
+echo "CPU Usage:" >> $LOG_FILE
+top -bn1 | grep "Cpu(s)" >> $LOG_FILE
+
+# Memory Usage
+echo "Memory Usage:" >> $LOG_FILE
+free -h >> $LOG_FILE
+
+# Disk Space
+echo "Disk Space:" >> $LOG_FILE
+df -h >> $LOG_FILE
+
+# Running Processes Count
+echo "Running Processes:" >> $LOG_FILE
+ps aux | wc -l >> $LOG_FILE
+
+# System Load
+echo "System Load:" >> $LOG_FILE
+uptime >> $LOG_FILE
+
+# Network Status
+echo "Network Status:" >> $LOG_FILE
+ip addr show >> $LOG_FILE
+
+echo "" >> $LOG_FILE
+Schedule health monitoring every 10 minutes:
+
+bash
+*/10 * * * * /home/user/system_monitor.sh >> /home/user/system_health.log 2>&1

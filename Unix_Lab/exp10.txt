@@ -1,0 +1,117 @@
+EXP : 10
+
+awk / perl scripts
+
+cmd :
+awk -> Interpreted programming language for text processing, ex awk '{print $1}' file.txt
+awk '/pattern/' -> Search for pattern using awk, ex awk '/hello/' file.txt
+awk '{print $NF}' -> Print last field of each line, ex awk '{print $NF}' file.txt
+awk 'NR%2==0' -> Print even numbered lines, ex awk 'NR%2==0' file.txt
+perl -> Perl programming language interpreter, ex perl script.pl
+perl -e -> Execute Perl code directly from command line, ex perl -e 'print "hello\n"'
+print -> Print in Perl, ex print "Hello World\n";
+my -> Declare a variable in Perl, ex my $name = "John";
+<STDIN> -> Take input from user in Perl, ex my $num = <STDIN>;
+chomp -> Remove newline from input in Perl, ex chomp($num);
+sort -> Sort elements in Perl, ex @sorted = sort @array;
+use strict -> Enforce strict variable declaration in Perl
+use warnings -> Enable warning messages in Perl
+
+Script examples for EXP 10:
+
+a) awk script to print all even numbers in a given range:
+
+bash
+#! /bin/sh
+echo "Enter starting number: "
+read start
+echo "Enter ending number: "
+read end
+
+awk -v s=$start -v e=$end '
+BEGIN {
+    for(i=s; i<=e; i++) {
+        if(i%2==0) {
+            print i
+        }
+    }
+}'
+Alternative awk one-liner:
+
+bash
+awk 'BEGIN{for(i=1;i<=20;i++) if(i%2==0) print i}'
+b) awk script to develop Fibonacci series (user input for number of terms):
+
+bash
+#! /bin/sh
+echo "Enter number of terms: "
+read n
+
+awk -v terms=$n '
+BEGIN {
+    a=0
+    b=1
+    print "Fibonacci series:"
+    for(i=1;i<=terms;i++) {
+        print a
+        next_term = a + b
+        a = b
+        b = next_term
+    }
+}'
+c) perl script to check if a number is prime or not:
+
+perl
+#! /usr/bin/perl
+use strict;
+use warnings;
+
+print "Enter a number: ";
+my $num = <STDIN>;
+chomp($num);
+
+my $is_prime = 1;
+if($num < 2) {
+    $is_prime = 0;
+}
+for(my $i=2; $i<=sqrt($num); $i++) {
+    if($num % $i == 0) {
+        $is_prime = 0;
+        last;
+    }
+}
+if($is_prime) {
+    print "$num is a prime number\n";
+} else {
+    print "$num is not a prime number\n";
+}
+c) Alternative perl script to sort elements of an array:
+
+perl
+#! /usr/bin/perl
+use strict;
+use warnings;
+
+print "Enter numbers separated by space: ";
+my $input = <STDIN>;
+chomp($input);
+
+my @numbers = split(' ', $input);
+my @sorted = sort { $a <=> $b } @numbers;
+
+print "Original array: @numbers\n";
+print "Sorted array: @sorted\n";
+Perl sort variations:
+
+perl
+# Sort numbers in ascending order
+@sorted = sort { $a <=> $b } @numbers;
+
+# Sort numbers in descending order
+@sorted = sort { $b <=> $a } @numbers;
+
+# Sort strings alphabetically
+@sorted = sort @strings;
+
+# Sort strings in reverse order
+@sorted = sort { $b cmp $a } @strings;

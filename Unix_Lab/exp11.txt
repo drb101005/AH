@@ -1,0 +1,88 @@
+EXP : 11
+
+Links in UNIX (Symlink and Hardlink)
+
+cmd :
+ln -> Create a hard link to a file, ex ln source.txt hardlink.txt
+ln -s -> Create a symbolic link (soft link) to a file, ex ln -s source.txt symlink.txt
+ls -l -> View links and their details, ex ls -l
+rm -> Remove/delete a file, ex rm source.txt
+unlink -> Remove a link, ex unlink symlink.txt
+
+Types of Links:
+
+1. Soft Link (Symbolic Link):
+
+Similar to a shortcut in Windows
+
+Points to the original file by path
+
+If original file is deleted, soft link becomes broken (dangling)
+
+Can link across different file systems
+
+Can link to directories
+
+Has different inode number than original
+
+2. Hard Link:
+
+Direct pointer to the same inode as original file
+
+If original file is deleted, hard link still works
+
+Cannot link across different file systems
+
+Cannot link to directories
+
+Same inode number as original
+
+Commands with examples:
+
+bash
+# Create a sample file first
+echo "Hello World" > original.txt
+
+# Create a hard link
+ln original.txt hardlink.txt
+
+# Create a soft link (symbolic link)
+ln -s original.txt symlink.txt
+
+# View link details (shows inode numbers)
+ls -li
+
+# Check content of both links
+cat hardlink.txt
+cat symlink.txt
+
+# Delete original file
+rm original.txt
+
+# After deletion:
+# - Hard link still works (cat hardlink.txt)
+# - Soft link is broken (cat symlink.txt shows error)
+Difference between Soft Link and Hard Link:
+
+Feature	Soft Link (Symbolic Link)	Hard Link
+Command	ln -s source link	ln source link
+Inode	Different from source	Same as source
+After deleting source	Broken (dangling)	Still works
+Can link directories	Yes	No
+Cross file system	Yes	No
+File size	Small (path only)	Same as source
+Looks like	Shortcut	Mirror copy
+Additional useful commands:
+
+bash
+# Find all hard links to a file (same inode number)
+ls -li filename
+
+# Find broken symbolic links
+find . -type l -! -exec test -e {} \; -print
+
+# Remove a link (does not affect original)
+unlink symlink.txt
+
+# Create symlink to directory
+ln -s /home/user/Documents/ mydocs

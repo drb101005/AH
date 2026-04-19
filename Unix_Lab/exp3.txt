@@ -1,0 +1,95 @@
+EXP : 3B
+
+File System Management Commands
+
+cmd :
+ls -> List directory contents
+cd -> Change current directory
+Example: cd /home
+mkdir -> Create new directory
+Example: mkdir myfolder
+rmdir -> Remove empty directory
+Example: rmdir myfolder
+mv -> Rename directory or file
+*Example: mv file1.txt file2.txt
+touch -> Create new empty file
+Example: touch myfile.txt
+-> Create file using redirect symbol
+Example: echo "Hello" > newfile.txt
+echo -> Print Text
+Example: echo "Hello World" 
+rm -> Remove/delete file permanently
+Example: rm myfile.txt
+
+cp -> Copy file or directory
+*Example: cp file1.txt file2.txt
+| -> Pipe - sends output of one command as input to another
+Example: ls -la | grep ".txt" , cat file.txt | wc
+
+grep -> Search for specific string in file
+Example: grep "hello" file.txt 
+
+sort -> Sort file contents alphabetically
+Example: sort names.txt , sort -r names.txt , sort -n numbers.txt
+
+tr -> Translate characters (lowercase to uppercase, etc.)
+Example: echo "hello" | tr 'a-z' 'A-Z' , cat file.txt | tr ' ' '\n'
+
+head -> Display first 10 lines of file
+*Example: head file.txt , head -n 20 file.txt*
+
+tail -> Display last 10 lines of file
+*Example: tail file.txt , tail -n 15 file.txt , tail -f logfile.txt*
+
+wc -> Count lines, words, and characters in file
+Example: wc file.txt , wc -l file.txt , wc -w file.txt , wc -c file.txt
+
+EXP : 3C
+
+File System Management: Compression and Archiving Commands
+
+cmd :
+zip -> Compress files into .zip archive
+*Example: zip myarchive.zip file1.txt file2.txt 
+
+unzip -> Extract files from .zip archive
+Example: unzip myarchive.zip 
+
+gzip -> Compress file (replaces original with .gz extension)
+Example: gzip myfile.txt , gzip -c myfile.txt > myfile.txt.gz
+
+gunzip -> Decompress .gz file (restores original file)
+Example: gunzip myfile.txt.gz
+
+tar -> Tape archive - create or extract archive files
+*Example: tar -cvf myarchive.tar .txt
+
+tar -cvf -> Create uncompressed tar archive
+*Example: tar -cvf myarchive.tar file1.txt file2.txt , tar -cvf backup.tar /home/user/*
+
+tar -xvf -> Extract files from tar archive
+Example: tar -xvf myarchive.tar , tar -xvf myarchive.tar -C /target/folder
+
+tar -cvzf -> Create tar archive with gzip compression (.tar.gz)
+*Example: tar -cvzf myarchive.tar.gz .c , tar -cvzf backup.tar.gz /home/user/
+
+tar -xvzf -> Extract gzip compressed tar archive (.tar.gz)
+Example: tar -xvzf myarchive.tar.gz
+
+tar -j -> Filter archive using bzip2 (creates .tar.bz2)
+*Example: tar -cvjf myarchive.tar.bz2 *.txt , tar -xvjf myarchive.tar.bz2*
+
+tar -t -> Display/list files in archived file
+Example: tar -tvf myarchive.tar , tar -tvf myarchive.tar.gz
+
+tar -u -> Archive and add to existing archive file
+Example: tar -uvf myarchive.tar newfile.txt
+
+tar -A -> Concatenate archive files
+*Example: tar -Af archive1.tar archive2.tar*
+
+tar -r -> Update or add file/directory to existing .tar file
+Example: tar -rvf myarchive.tar newfile.txt
+
+tar -W -> Verify an archive file
+Example: tar -Wvf myarchive.tar

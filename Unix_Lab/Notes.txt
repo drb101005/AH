@@ -1,0 +1,42 @@
+You can put man and any cmd to get full details of cmds 
+Additional notes from your document:
+
+/proc directory:
+
+Virtual file system created on the fly when system boots
+
+Dissolved at system shut down
+
+Contains information about system and processes
+
+/proc/meminfo - specific file for memory usage info
+
+free command memory units:
+
+Default: KB (kilobytes)
+
+-m : Megabytes
+
+-g : Gigabytes
+
+-h : Human-readable
+
+df command displays:
+
+Number of blocks used
+
+Number of blocks available
+
+Directory where file system is mounted
+
+vmstat shows:
+
+Processes
+
+Memory
+
+Paging
+
+Block IO
+
+Disk and CPU scheduling
