@@ -5,16 +5,16 @@ Basic Programs of Shell Scripting
 Shell Script Basics:
 
 cmd :
-vi scriptname.sh -> Create a shell script file using vi editor
+vi scriptname.sh -> Creates/opens a shell script file using vi editor
 Example: vi myscript.sh
 
-#! /bin/sh -> Shebang operator - directs script to interpreter location (bourne-shell)
+#! /bin/sh -> Shebang line - specifies interpreter path (Bourne shell)
 Example: #! /bin/sh (must be first line of script)
 
-bash filename.sh -> Execute the shell script
+bash filename.sh -> Executes the shell script using bash
 Example: bash myscript.sh
 
-chmod +x -> Make shell script executable
+chmod +x -> Makes the script executable
 Example: chmod +x myscript.sh , ./myscript.sh
 
 Program 1: Arithmetic Operations Script
@@ -45,7 +45,6 @@ read t
 si=`expr $p \* $r \* $t / 100`
 echo "Simple Interest = $si"
 
-
 Program 3: Largest Among Three Numbers
 
 #! /bin/sh
@@ -64,13 +63,14 @@ then
 else
     echo "$c is largest"
 fi
+
 Quick Reference Sheet:
 
 Steps to Create and Run a Shell Script:
 
-vi filename.sh -> Create file with .sh extension
+vi filename.sh -> Creates script file with .sh extension
 
-#! /bin/sh -> Start script with shebang
+#! /bin/sh -> Add shebang line at top
 
 Write code
 

@@ -1,42 +1,87 @@
-You can put man and any cmd to get full details of cmds 
-Additional notes from your document:
+Final Revision Notes (Quick Viva Boost)
 
-/proc directory:
+These are high-frequency viva points + theory traps examiners love to ask:
 
-Virtual file system created on the fly when system boots
+🔹 /proc Directory (VERY IMPORTANT)
+It is a virtual file system created at boot time.
+It does NOT exist on disk (stored in memory).
+It gets destroyed when system shuts down.
+Contains real-time system + process information.
 
-Dissolved at system shut down
+👉 Example:
 
-Contains information about system and processes
+/proc/meminfo → shows detailed memory usage of system
+🔹 free Command (Memory Monitoring)
+Shows RAM + swap usage
+Default unit = KB
 
-/proc/meminfo - specific file for memory usage info
+Flags:
 
-free command memory units:
+-m → MB
+-g → GB
+-h → human readable (BEST for viva)
 
-Default: KB (kilobytes)
+👉 Viva tip:
 
--m : Megabytes
+“free command only shows snapshot of memory, not process-level details”
 
--g : Gigabytes
+🔹 df Command (Disk Usage)
 
--h : Human-readable
+Used to check file system disk usage
 
-df command displays:
+Shows:
 
-Number of blocks used
+Total blocks used
+Free blocks available
+Mounted file system location
 
-Number of blocks available
+👉 Viva trick:
 
-Directory where file system is mounted
+df = Disk FILESYSTEM usage (not file size)
+🔹 du vs df (COMMON QUESTION)
+du → file/directory size usage
+df → disk partition usage
+🔹 vmstat (System Performance)
 
-vmstat shows:
+Shows:
 
 Processes
+Memory usage
+Paging activity
+Block I/O
+CPU scheduling
 
-Memory
+👉 Viva line:
 
-Paging
+“vmstat gives overall system performance snapshot including CPU, memory and I/O activity”
 
-Block IO
+🔥 Extra Viva Tips (VERY USEFUL)
 
-Disk and CPU scheduling
+Always remember:
+
+man <command> gives full manual of any command
+
+Pipes (|) are used to:
+
+Pass output of one command as input to another
+
+grep is for:
+
+Pattern searching in files
+
+sed is for:
+
+Stream editing (replace/delete text without opening file)
+
+awk is for:
+
+Column-wise text processing
+
+⚡ Last Minute Exam Strategy
+If you forget syntax → explain logic instead (you still get marks)
+Always mention use case + example
+Say keywords like:
+“process management”
+“system monitoring”
+“file system hierarchy”
+“virtual file system”

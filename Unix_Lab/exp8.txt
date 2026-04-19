@@ -6,7 +6,6 @@ Program 1: Menu-Driven Calculator using case statement
 
 case statement syntax:
 
-bash
 case word in
 pattern1)
     statements
@@ -18,9 +17,9 @@ pattern2)
     default statements
     ;;
 esac
+
 Calculator Script:
 
-bash
 #! /bin/sh
 echo "Menu Driven Calculator"
 echo "1. Addition"
@@ -54,9 +53,9 @@ case $ch in
     echo "Invalid Choice"
     ;;
 esac
+
 Program 2: Print Pattern
 
-bash
 #! /bin/sh
 echo "Enter number of rows: "
 read rows
@@ -73,25 +72,25 @@ do
     echo ""
     i=`expr $i + 1`
 done
+
 Output Pattern:
 
-text
 *
 * *
 * * *
 * * * *
+
 Program 3: Check if Directory/File Exists
 
 File tests in Bash:
 
-Test	Condition
--f	File exists
--d	Directory exists
--e	File/directory exists
-!	NOT operator
+-f -> File exists
+-d -> Directory exists
+-e -> File or directory exists
+!  -> NOT operator
+
 Script to check and create directory:
 
-bash
 #! /bin/sh
 echo "Enter directory name: "
 read dir
@@ -103,9 +102,9 @@ else
     mkdir $dir
     echo "Directory $dir created successfully"
 fi
+
 Script to check and create file:
 
-bash
 #! /bin/sh
 echo "Enter file name: "
 read file

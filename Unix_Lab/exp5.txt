@@ -3,35 +3,35 @@ EXP : 5
 Process Management Commands
 
 cmd :
-fg -> Bring a stopped or background job to the foreground
+fg -> Brings a background or suspended job to the foreground
 Example: fg , fg %1 , fg jobname
 
-& -> Run a job in the background (ampersand at end of command)
+& -> Runs a command in the background (placed at end of command)
 Example: sleep 100 & , gedit & , firefox &
 
-Ctrl+Z -> Suspend the currently running foreground job (keyboard shortcut)
+Ctrl+Z -> Suspends the currently running foreground process
 Example: Press Ctrl+Z while a command is running
 
-bg -> Resume a suspended job and run it in the background
+bg -> Resumes a suspended job in the background
 Example: bg , bg %1
 
-top -> Display all running processes with real-time updates
+top -> Displays real-time running processes and system usage
 Example: top , top -u username , Press 'q' to exit
 
-ps -> Display process status (list currently running processes)
+ps -> Displays snapshot of current running processes
 Example: ps , ps ux , ps aux , ps -ef
 
-pstree -> Display running processes as a tree (shows process hierarchy)
+pstree -> Displays processes in a tree format (parent-child hierarchy)
 Example: pstree , pstree -p , pstree username
 
-nice -> Launch a process with modified scheduling priority (lower priority)
-*Example: nice -n 10 ./script.sh , nice -10 command , nice -n 19 command*
+nice -> Starts a process with adjusted priority (niceness value)
+Example: nice -n 10 ./script.sh , nice -10 command , nice -n 19 command
 
-renice -> Change scheduling priority of an already running process
-*Example: sudo renice -n 5 -p 1234 , renice +10 -u username*
+renice -> Changes priority of a running process
+Example: sudo renice -n 5 -p 1234 , renice +10 -u username
 
-kill -> Terminate a process by specifying its PID
-*Example: kill 1234 , kill -9 1234 , kill -TERM 1234*
+kill -> Terminates a process using its PID
+Example: kill 1234 , kill -9 1234 , kill -TERM 1234
 
-killall -> Terminate all processes by name
-*Example: killall firefox , killall -9 chrome , killall sleep*
+killall -> Terminates all processes by name
+Example: killall firefox , killall -9 chrome , killall sleep

@@ -16,21 +16,30 @@ cat 'file_name' -> To see file content
 ping 'website_link/ip'
 
 EXP : 2B 
-VI editor 
-vi file_name -> To create the file 
-press a and start typing esc +:wq
-now open the vi again
+--- VI BASICS ---
+vi file_name -> Open/create file
 
-h - cursor left
-l - cursor right
-j - cursor down
-k - cursor up
-x - delete character under cursor
-i - insert text before cursor
-o - open new blank line below cursor
-dd - delete entire line
-dw - delete word from cursor position
-:w - save the file
-$ - move cursor to end of line
+--- MODES ---
+i -> Insert before cursor
+a -> Insert after cursor
+Esc -> Exit insert mode
 
+--- MOVEMENT ---
+h -> left
+l -> right
+j -> down
+k -> up
+$ -> end of line
+
+--- EDITING ---
+x -> delete character
+dd -> delete line
+dw -> delete word
+o -> new line below
+
+--- SAVE & EXIT ---
+:w -> save
+:wq -> save and quit
+:q -> quit
+:q! -> force quit
 

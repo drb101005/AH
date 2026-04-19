@@ -3,11 +3,21 @@ EXP : 11
 Links in UNIX (Symlink and Hardlink)
 
 cmd :
-ln -> Create a hard link to a file, ex ln source.txt hardlink.txt
-ln -s -> Create a symbolic link (soft link) to a file, ex ln -s source.txt symlink.txt
-ls -l -> View links and their details, ex ls -l
-rm -> Remove/delete a file, ex rm source.txt
-unlink -> Remove a link, ex unlink symlink.txt
+ln -> Creates a hard link to a file
+Example: ln source.txt hardlink.txt
+
+ln -s -> Creates a symbolic (soft) link to a file
+Example: ln -s source.txt symlink.txt
+
+ls -l -> Displays files with link details and permissions
+Example: ls -l
+
+rm -> Removes/deletes a file
+Example: rm source.txt
+
+unlink -> Removes a link (works like rm for links)
+Example: unlink symlink.txt
+
 
 Types of Links:
 
@@ -15,31 +25,32 @@ Types of Links:
 
 Similar to a shortcut in Windows
 
-Points to the original file by path
+Points to the original file using its path
 
-If original file is deleted, soft link becomes broken (dangling)
+If original file is deleted, soft link becomes broken (dangling link)
 
-Can link across different file systems
+Can work across different file systems
 
 Can link to directories
 
-Has different inode number than original
+Has a different inode number than the original file
+
 
 2. Hard Link:
 
-Direct pointer to the same inode as original file
+Direct reference to the same inode as the original file
 
 If original file is deleted, hard link still works
 
-Cannot link across different file systems
+Cannot work across different file systems
 
 Cannot link to directories
 
-Same inode number as original
+Has the same inode number as the original file
+
 
 Commands with examples:
 
-bash
 # Create a sample file first
 echo "Hello World" > original.txt
 
@@ -61,27 +72,31 @@ rm original.txt
 
 # After deletion:
 # - Hard link still works (cat hardlink.txt)
-# - Soft link is broken (cat symlink.txt shows error)
+# - Soft link becomes broken (cat symlink.txt gives error)
+
+
 Difference between Soft Link and Hard Link:
 
-Feature	Soft Link (Symbolic Link)	Hard Link
-Command	ln -s source link	ln source link
-Inode	Different from source	Same as source
-After deleting source	Broken (dangling)	Still works
-Can link directories	Yes	No
-Cross file system	Yes	No
-File size	Small (path only)	Same as source
-Looks like	Shortcut	Mirror copy
+Feature | Soft Link (Symbolic Link) | Hard Link
+--------|---------------------------|----------
+Command | ln -s source link | ln source link
+Inode | Different from source | Same as source
+After deleting source | Becomes broken (dangling) | Still works
+Can link directories | Yes | No
+Cross file system | Yes | No
+File size | Small (stores path) | Same as source
+Looks like | Shortcut | Mirror copy
+
+
 Additional useful commands:
 
-bash
 # Find all hard links to a file (same inode number)
 ls -li filename
 
 # Find broken symbolic links
 find . -type l -! -exec test -e {} \; -print
 
-# Remove a link (does not affect original)
+# Remove a link (does not affect original file)
 unlink symlink.txt
 
 # Create symlink to directory

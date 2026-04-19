@@ -3,25 +3,48 @@ EXP : 10
 awk / perl scripts
 
 cmd :
-awk -> Interpreted programming language for text processing, ex awk '{print $1}' file.txt
-awk '/pattern/' -> Search for pattern using awk, ex awk '/hello/' file.txt
-awk '{print $NF}' -> Print last field of each line, ex awk '{print $NF}' file.txt
-awk 'NR%2==0' -> Print even numbered lines, ex awk 'NR%2==0' file.txt
-perl -> Perl programming language interpreter, ex perl script.pl
-perl -e -> Execute Perl code directly from command line, ex perl -e 'print "hello\n"'
-print -> Print in Perl, ex print "Hello World\n";
-my -> Declare a variable in Perl, ex my $name = "John";
-<STDIN> -> Take input from user in Perl, ex my $num = <STDIN>;
-chomp -> Remove newline from input in Perl, ex chomp($num);
-sort -> Sort elements in Perl, ex @sorted = sort @array;
-use strict -> Enforce strict variable declaration in Perl
-use warnings -> Enable warning messages in Perl
+awk -> Text processing language used for pattern scanning and processing
+Example: awk '{print $1}' file.txt
+
+awk '/pattern/' -> Searches for a pattern in input
+Example: awk '/hello/' file.txt
+
+awk '{print $NF}' -> Prints last field of each line
+Example: awk '{print $NF}' file.txt
+
+awk 'NR%2==0' -> Prints even-numbered lines
+Example: awk 'NR%2==0' file.txt
+
+perl -> Perl interpreter to run Perl scripts
+Example: perl script.pl
+
+perl -e -> Executes Perl code directly from command line
+Example: perl -e 'print "hello\n"'
+
+print -> Prints output in Perl
+Example: print "Hello World\n";
+
+my -> Declares a variable in Perl
+Example: my $name = "John";
+
+<STDIN> -> Takes input from user in Perl
+Example: my $num = <STDIN>;
+
+chomp -> Removes newline character from input
+Example: chomp($num);
+
+sort -> Sorts elements (numbers/strings) in Perl
+Example: @sorted = sort @array;
+
+use strict -> Enforces strict variable declaration rules in Perl
+
+use warnings -> Enables warning messages in Perl
+
 
 Script examples for EXP 10:
 
 a) awk script to print all even numbers in a given range:
 
-bash
 #! /bin/sh
 echo "Enter starting number: "
 read start
@@ -36,13 +59,13 @@ BEGIN {
         }
     }
 }'
+
 Alternative awk one-liner:
 
-bash
 awk 'BEGIN{for(i=1;i<=20;i++) if(i%2==0) print i}'
+
 b) awk script to develop Fibonacci series (user input for number of terms):
 
-bash
 #! /bin/sh
 echo "Enter number of terms: "
 read n
@@ -59,9 +82,9 @@ BEGIN {
         b = next_term
     }
 }'
+
 c) perl script to check if a number is prime or not:
 
-perl
 #! /usr/bin/perl
 use strict;
 use warnings;
@@ -85,9 +108,9 @@ if($is_prime) {
 } else {
     print "$num is not a prime number\n";
 }
+
 c) Alternative perl script to sort elements of an array:
 
-perl
 #! /usr/bin/perl
 use strict;
 use warnings;
@@ -101,9 +124,9 @@ my @sorted = sort { $a <=> $b } @numbers;
 
 print "Original array: @numbers\n";
 print "Sorted array: @sorted\n";
+
 Perl sort variations:
 
-perl
 # Sort numbers in ascending order
 @sorted = sort { $a <=> $b } @numbers;
 

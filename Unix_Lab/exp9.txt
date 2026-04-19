@@ -3,44 +3,75 @@ EXP : 9
 grep / sed commands
 
 cmd :
-grep -> Search for a pattern in file, prints matching lines, ex grep "hello" file.txt
-grep -c -> Count number of matching lines, ex grep -c "error" log.txt
-grep -o -> Show only the matching part of the line, ex grep -o "word" file.txt
-grep -v -> Show lines that do NOT match the pattern, ex grep -v "test" file.txt
-egrep -> Extended grep (treats meta-characters as is, no need to escape), ex egrep "pattern1|pattern2" file.txt
-wc -l -> Count number of lines in a file, ex wc -l file.txt
-wc -w -> Count number of words in a file, ex wc -w file.txt
-wc -c -> Count number of bytes/characters in a file, ex wc -c file.txt
-wc -m -> Count number of characters in a file, ex wc -m file.txt
-wc -L -> Print length of longest line in a file, ex wc -L file.txt
-sed -> Stream editor for non-interactive editing, ex sed 's/old/new/g' file.txt
-sed -i -> Edit file in place (directly modify file), ex sed -i 's/old/new/g' file.txt
-sed -n 'p' -> Print lines from file, ex sed -n 'p' file.txt
-uniq -d -> Show only duplicate lines (use with sort), ex sort file.txt | uniq -d
-sort -> Sort lines alphabetically, ex sort file.txt
-sort | uniq -d -> Find duplicated lines, ex sort file.txt | uniq -d
+grep -> Searches for a pattern in a file and prints matching lines
+Example: grep "hello" file.txt
+
+grep -c -> Counts number of matching lines
+Example: grep -c "error" log.txt
+
+grep -o -> Displays only the matched part of the line
+Example: grep -o "word" file.txt
+
+grep -v -> Displays lines that do NOT match the pattern
+Example: grep -v "test" file.txt
+
+egrep -> Extended grep (supports patterns like OR without escaping)
+Example: egrep "pattern1|pattern2" file.txt
+
+wc -l -> Counts number of lines in a file
+Example: wc -l file.txt
+
+wc -w -> Counts number of words in a file
+Example: wc -w file.txt
+
+wc -c -> Counts number of bytes/characters in a file
+Example: wc -c file.txt
+
+wc -m -> Counts number of characters in a file
+Example: wc -m file.txt
+
+wc -L -> Displays length of the longest line
+Example: wc -L file.txt
+
+sed -> Stream editor used for text processing and replacement
+Example: sed 's/old/new/g' file.txt
+
+sed -i -> Edits file in place (modifies original file)
+Example: sed -i 's/old/new/g' file.txt
+
+sed -n 'p' -> Prints selected lines from file
+Example: sed -n 'p' file.txt
+
+uniq -d -> Displays duplicate lines (used with sorted input)
+Example: sort file.txt | uniq -d
+
+sort -> Sorts lines alphabetically
+Example: sort file.txt
+
+sort | uniq -d -> Finds duplicate lines
+Example: sort file.txt | uniq -d
+
 
 Script examples for EXP 9:
 
 a) Script using grep to find lines, words, characters in a file:
 
-bash
 #! /bin/sh
 echo "Enter filename: "
 read file
 echo "Lines: `wc -l $file`"
 echo "Words: `wc -w $file`"
 echo "Characters: `wc -c $file`"
+
 b) Script using egrep to display specific type of files:
 
-bash
 #! /bin/sh
 echo "Enter extension (ex .txt): "
 read ext
 ls | egrep "$ext$"
+
 c) Script using sed to replace a word in a file:
 
-bash
 #! /bin/sh
 echo "Enter filename: "
 read file

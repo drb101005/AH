@@ -3,53 +3,53 @@ EXP : 4
 User Management Commands
 
 cmd :
-whoami -> Displays the current system's username
+whoami -> Displays the current logged-in username
 Example: whoami
 
-who -> Shows information about users logged into the system
+who -> Shows details of users currently logged into the system
 Example: who , who -u , who -b
 
-w -> Shows logged-in users and what they are doing
+w -> Displays logged-in users and their current activities
 Example: w , w username
 
-sudo -> Execute command with superuser/elevated privileges
+sudo -> Executes command with superuser (root) privileges
 Example: sudo apt update , sudo useradd john , sudo cat /etc/shadow
 
-su -> Switch to another user account (run shell as another user)
+su -> Switches to another user account (starts shell as that user)
 Example: su , su root , su - username
 
-exit -> Exit the current shell
+exit -> Exits the current shell/session
 Example: exit , exit 0
 
-passwd -> Set or change user password
+passwd -> Sets or changes user password
 Example: passwd , passwd username
 
-groupadd -> Create/add a new group in the system
-*Example: sudo groupadd developers , sudo groupadd -g 1001 admin*
+groupadd -> Creates a new group in the system
+Example: sudo groupadd developers , sudo groupadd -g 1001 admin
 
-groups -> Display groups that the current user belongs to
+groups -> Displays groups the user belongs to
 Example: groups , groups username
 
-usermod -> Modify user account (edit group membership, etc.)
+usermod -> Modifies user account (e.g., add to group, lock account)
 Example: sudo usermod -aG developers john , sudo usermod -L john
 
-groupmod -> Change the name of an existing group
+groupmod -> Modifies existing group (e.g., change group name)
 Example: sudo groupmod -n newname oldname
 
-groupdel -> Delete a group permanently from the system
+groupdel -> Deletes a group from the system
 Example: sudo groupdel developers
 
-useradd -> Add a new user account to the system
+useradd -> Creates a new user account
 Example: sudo useradd john , sudo useradd -m john , sudo useradd -g developers john
 
-userdel -> Delete a user account and related files
+userdel -> Deletes a user account (with option to remove home directory)
 Example: sudo userdel john , sudo userdel -r john
 
-chown -> Change file owner or group
+chown -> Changes file owner and/or group
 Example: sudo chown john file.txt , sudo chown john:developers file.txt , sudo chown -R john: /home/john
 
-chage -> View and change user password expiry information
-*Example: sudo chage -l john , sudo chage -M 30 john , sudo chage -E 2025-12-31 john*
+chage -> Displays or modifies user password expiry settings
+Example: sudo chage -l john , sudo chage -M 30 john , sudo chage -E 2025-12-31 john
 
-chfn -> Change user's finger information (name, details)
+chfn -> Changes user information (name, phone, etc.)
 Example: chfn , sudo chfn john

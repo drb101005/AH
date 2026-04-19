@@ -1,28 +1,28 @@
 EXP : 6
 
 Memory Management Commands
+
 cmd :
-free -> Display used and unused memory (RAM) and swap memory usage
+free -> Displays used and free memory (RAM) and swap usage
 Example: free , free -h , free -m , free -g
 
-cat /proc/meminfo -> Display detailed system memory usage information from virtual file system
+cat /proc/meminfo -> Displays detailed memory information from system file
 Example: cat /proc/meminfo
 
-df -> Display disk space used in the file system (disk filesystem)
+df -> Displays disk space usage of file systems
 Example: df , df -h , df -T , df -m
 
-df -h -> Display disk space usage in human-readable form (KB, MB, GB)
+df -h -> Displays disk space in human-readable format (KB, MB, GB)
 Example: df -h
 
-df -T -> Display disk space usage along with file system type
+df -T -> Displays disk space along with file system type
 Example: df -T
 
-du -> Display disk usage of files and directories (Disk Usage)
+du -> Displays disk usage of files and directories
 Example: du , du -h , du -sh , du -sh /home
 
-du -sh -> Display total size of a directory in human-readable format (summarize)
-*Example: du -sh Documents/ , du -sh * *
+du -sh -> Displays total size of a directory (summarized, human-readable)
+Example: du -sh Documents/ , du -sh *
 
-vmstat -> Display system performance information (processes, memory, paging, CPU)
-*Example: vmstat , vmstat 5 , vmstat -s*
-
+vmstat -> Displays system performance (memory, processes, CPU, paging)
+Example: vmstat , vmstat 5 , vmstat -s
