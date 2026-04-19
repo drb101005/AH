@@ -1,0 +1,77 @@
+EXP : 5 (Tcpdump - TCP Three-Way Handshake)
+
+--- TCPDUMP BASICS ---
+which tcpdump                       -> Find where tcpdump is installed
+sudo tcpdump -D                     -> List all network interfaces available
+sudo tcpdump --interface any        -> Capture packets from all interfaces
+sudo tcpdump -i eth0 -c10           -> Capture 10 packets on eth0 interface
+sudo tcpdump -i any -n              -> Capture with no DNS resolution (show IPs only)
+sudo tcpdump -i any -v              -> Verbose output (more details)
+sudo tcpdump -i any -vvv            -> Very verbose output (maximum details)
+sudo tcpdump -i any -x              -> Show HEX format of packet data
+sudo tcpdump -i any -X              -> Show HEX + ASCII format of packet data
+sudo tcpdump -i any -A              -> Show ASCII format of packet data
+sudo tcpdump -i any -w capture.pcap -> Save captured packets to file
+sudo tcpdump -r capture.pcap        -> Read packets from saved file
+
+--- FILTERS ---
+sudo tcpdump -i any port 80         -> Capture only HTTP traffic (port 80)
+sudo tcpdump -i any port 22         -> Capture only SSH traffic (port 22)
+sudo tcpdump -i any port 23         -> Capture only Telnet traffic (port 23)
+sudo tcpdump -i any port 443        -> Capture only HTTPS traffic (port 443)
+sudo tcpdump -i any src 192.168.1.1 -> Capture packets FROM specific IP
+sudo tcpdump -i any dst 192.168.1.1 -> Capture packets TO specific IP
+sudo tcpdump -i any -c5 icmp        -> Capture only 5 ICMP (ping) packets
+sudo tcpdump -i any tcp             -> Capture only TCP packets
+sudo tcpdump -i any udp             -> Capture only UDP packets
+sudo tcpdump -i any port 80 or port 443 -> Capture HTTP and HTTPS
+
+--- TCP FLAGS (What you see in output) ---
+[S]  -> SYN (Request to establish connection)
+[.]  -> ACK (Acknowledgment)
+[S.] -> SYN-ACK (Both SYN and ACK together)
+[F]  -> FIN (Finish - terminate connection)
+[F.] -> FIN-ACK (Finish with acknowledgment)
+[P]  -> PSH (Push - send data immediately)
+[R]  -> RST (Reset - abort connection)
+
+--- COMPLETE EXPERIMENT COMMANDS ---
+--- Terminal 1 (Start Server) ---
+nc -lk 12345                        -> Start TCP server on port 12345 (listen mode, keep alive)
+
+--- Terminal 2 (Start Capture) ---
+sudo tcpdump -i lo port 12345 -n -v -> Capture on loopback, port 12345, no DNS, verbose
+
+--- Terminal 3 (Connect Client) ---
+telnet 127.0.0.1 12345             -> Connect to server on localhost port 12345
+
+--- Inside telnet (after connection) ---
+Type any message                    -> Sends data (you will see [P] flags in tcpdump)
+Ctrl + ]                           -> Enter telnet command mode
+quit                               -> Exit telnet connection
+
+--- Stop tcpdump ---
+Ctrl + C                           -> Stop packet capture
+
+--- EXPECTED OUTPUT (3-Way Handshake) ---
+1. 127.0.0.1:port > 127.0.0.1:12345: Flags [S]   -> SYN from client
+2. 127.0.0.1:12345 > 127.0.0.1:port: Flags [S.]  -> SYN-ACK from server
+3. 127.0.0.1:port > 127.0.0.1:12345: Flags [.]   -> ACK from client
+
+--- EXPECTED OUTPUT (Termination) ---
+1. 127.0.0.1:port > 127.0.0.1:12345: Flags [F.]  -> FIN from active closer
+2. 127.0.0.1:12345 > 127.0.0.1:port: Flags [.]   -> ACK
+3. 127.0.0.1:12345 > 127.0.0.1:port: Flags [F.]  -> FIN from other side
+4. 127.0.0.1:port > 127.0.0.1:12345: Flags [.]   -> ACK
+
+--- QUICK REFERENCE (Memorize for exam) ---
+3-way handshake packets: 3 (SYN, SYN-ACK, ACK)
+Termination packets: 4 (FIN, ACK, FIN, ACK)
+Default Telnet port: 23
+Default SSH port: 22
+Default HTTP port: 80
+Loopback interface: lo (127.0.0.1)
+Stop after N packets: -c
+No DNS resolution: -n
+Save to file: -w
+Read from file: -r

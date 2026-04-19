@@ -1,5 +1,5 @@
 EXP : 2A 
-Add a one liner explanation after each cmd to tell about its use for viva
+
 cmd : 
 man  -> To view all cmds 
 whoami -> View User
