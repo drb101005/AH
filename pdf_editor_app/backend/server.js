@@ -5,6 +5,14 @@ const { incrementCounter, getCount } = require("./counter");
 
 const app = express();
 
+function safeIncrementCounter() {
+  try {
+    incrementCounter();
+  } catch (error) {
+    console.warn("Counter update skipped:", error?.message || error);
+  }
+}
+
 // Middleware
 app.use(cors({ origin: "*" }));
 app.use(express.json({ limit: "10mb" }));
@@ -22,7 +30,7 @@ app.post("/export", async (req, res) => {
 
     // 🔥 Puppeteer launch FIXED for Render
     browser = await puppeteer.launch({
-      headless: "new",
+      headless: true,
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
@@ -67,7 +75,7 @@ app.post("/export", async (req, res) => {
       </html>
       `,
       {
-        waitUntil: "networkidle0",
+        waitUntil: "domcontentloaded",
         timeout: 30000
       }
     );
@@ -79,7 +87,7 @@ app.post("/export", async (req, res) => {
       preferCSSPageSize: true
     });
 
-    incrementCounter();
+    safeIncrementCounter();
 
     res.set({
       "Content-Type": "application/pdf",
