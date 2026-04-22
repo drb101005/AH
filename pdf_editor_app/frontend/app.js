@@ -56,16 +56,21 @@ async function loadPDF() {
     for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
       const page = await pdf.getPage(pageNumber);
       const viewport = page.getViewport({ scale: renderScale });
+      const backgroundImage = await renderPageBackground(page, viewport);
       const textContent = await page.getTextContent();
 
-      pageMarkup.push(renderPageMarkup(pageNumber, viewport, textContent.items));
+      pageMarkup.push(
+        renderPageMarkup(pageNumber, viewport, backgroundImage, textContent.items)
+      );
     }
 
     hasRenderedLayout = true;
     editor.classList.remove("is-empty");
     editor.innerHTML = pageMarkup.join("");
 
-    setStatus(`Loaded ${pdf.numPages} page${pdf.numPages === 1 ? "" : "s"} with positioned text.`);
+    setStatus(
+      `Loaded ${pdf.numPages} page${pdf.numPages === 1 ? "" : "s"} with original graphics preserved.`
+    );
     await loadCount();
   } catch (error) {
     console.error("Failed to read PDF:", error);
@@ -75,7 +80,22 @@ async function loadPDF() {
   }
 }
 
-function renderPageMarkup(pageNumber, viewport, items) {
+async function renderPageBackground(page, viewport) {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+
+  canvas.width = Math.ceil(viewport.width);
+  canvas.height = Math.ceil(viewport.height);
+
+  await page.render({
+    canvasContext: context,
+    viewport
+  }).promise;
+
+  return canvas.toDataURL("image/png");
+}
+
+function renderPageMarkup(pageNumber, viewport, backgroundImage, items) {
   const spans = items
     .filter((item) => "str" in item && item.str)
     .map((item, index) => {
@@ -84,6 +104,7 @@ function renderPageMarkup(pageNumber, viewport, items) {
       const fontSize = round(Math.max(Math.hypot(matrix[2], matrix[3]), 8));
       const top = round(matrix[5] - fontSize);
       const width = round(Math.max(item.width * viewport.scale, 2));
+      const height = round(Math.max(fontSize * 1.15, 10));
       const fontFamily = escapeAttribute(item.fontName || "sans-serif");
 
       return [
@@ -93,9 +114,11 @@ function renderPageMarkup(pageNumber, viewport, items) {
         ` data-left="${left}"`,
         ` data-top="${top}"`,
         ` data-width="${width}"`,
+        ` data-height="${height}"`,
         ` data-font-size="${fontSize}"`,
         ` data-font-family="${fontFamily}"`,
-        ` style="left:${left}px; top:${top}px; width:${width}px; font-size:${fontSize}px; font-family:${fontFamily};">`,
+        ` style="left:${left}px; top:${top}px; width:${width}px; min-height:${height}px;`,
+        ` font-size:${fontSize}px; font-family:${fontFamily};">`,
         `${escapeHtml(item.str)}`,
         `</span>`
       ].join("");
@@ -105,7 +128,10 @@ function renderPageMarkup(pageNumber, viewport, items) {
   return [
     `<div class="editor-page" data-page="${pageNumber}"`,
     ` style="width:${round(viewport.width)}px; height:${round(viewport.height)}px;">`,
+    `<img class="editor-page-image" src="${backgroundImage}" alt="PDF page ${pageNumber} background">`,
+    `<div class="editor-overlay">`,
     spans,
+    `</div>`,
     `</div>`
   ].join("");
 }
@@ -167,17 +193,20 @@ function buildExportHtml() {
   const pages = Array.from(editor.querySelectorAll(".editor-page")).map((page) => {
     const width = page.style.width;
     const height = page.style.height;
+    const backgroundImage = page.querySelector(".editor-page-image")?.src || "";
     const spans = Array.from(page.querySelectorAll(".editor-text")).map((span) => {
       const left = span.dataset.left;
       const top = span.dataset.top;
       const widthValue = span.dataset.width;
+      const heightValue = span.dataset.height;
       const fontSize = span.dataset.fontSize;
       const fontFamily = span.dataset.fontFamily;
       const text = span.textContent || "";
 
       return [
         `<span style="position:absolute; left:${left}px; top:${top}px; width:${widthValue}px;`,
-        ` font-size:${fontSize}px; font-family:${fontFamily}; white-space:pre; color:#111827;">`,
+        ` min-height:${heightValue}px; font-size:${fontSize}px; font-family:${fontFamily};`,
+        ` white-space:pre; color:#111827; background:rgba(255,255,255,0.94);">`,
         `${escapeHtml(text)}`,
         `</span>`
       ].join("");
@@ -185,16 +214,13 @@ function buildExportHtml() {
 
     return [
       `<div class="pdf-page" style="position:relative; width:${width}; height:${height};">`,
+      `<img src="${backgroundImage}" style="position:absolute; inset:0; width:100%; height:100%; object-fit:fill;" alt="">`,
       spans,
       `</div>`
     ].join("");
   });
 
-  return [
-    `<div class="pdf-document">`,
-    pages.join(""),
-    `</div>`
-  ].join("");
+  return `<div class="pdf-document">${pages.join("")}</div>`;
 }
 
 async function loadCount() {
@@ -229,8 +255,18 @@ function handleEditorPaste(event) {
   }
 
   event.preventDefault();
+
   const pastedText = event.clipboardData?.getData("text/plain") || "";
-  document.execCommand("insertText", false, pastedText.replace(/\r?\n/g, " "));
+  const selection = window.getSelection();
+
+  if (!selection || selection.rangeCount === 0) {
+    event.target.textContent += pastedText.replace(/\r?\n/g, " ");
+    return;
+  }
+
+  selection.deleteFromDocument();
+  selection.getRangeAt(0).insertNode(document.createTextNode(pastedText.replace(/\r?\n/g, " ")));
+  selection.collapseToEnd();
 }
 
 function round(value) {
