@@ -4,18 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PDF Text Editor</title>
+  <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <main class="container">
     <h1>PDF Text Editor</h1>
-    <p class="subtitle">Upload a PDF, edit the extracted text, then download a new PDF.</p>
+    <p class="subtitle">Upload a PDF, edit the positioned text, then download a matching PDF layout.</p>
 
     <section class="panel">
       <label for="fileInput" class="label">Choose PDF</label>
       <input type="file" id="fileInput" accept="application/pdf">
       <div class="actions">
-        <button id="loadBtn" type="button">Extract Text</button>
+        <button id="loadBtn" type="button">Load PDF Layout</button>
         <button id="downloadBtn" type="button">Download PDF</button>
       </div>
       <p id="status" class="status">Ready.</p>
@@ -23,8 +24,8 @@
     </section>
 
     <section class="panel">
-      <label for="editor" class="label">Edit Text</label>
-      <textarea id="editor" placeholder="PDF text will appear here..."></textarea>
+      <label for="editor" class="label">Edit Positioned Text</label>
+      <div id="editor" class="editor" aria-label="PDF layout editor"></div>
     </section>
   </main>
 

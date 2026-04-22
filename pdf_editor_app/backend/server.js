@@ -4,27 +4,70 @@ const puppeteer = require("puppeteer");
 const { incrementCounter, getCount } = require("./counter");
 
 const app = express();
+
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 
-// Export edited HTML → PDF
 app.post("/export", async (req, res) => {
+  let browser;
+
   try {
     const { html } = req.body;
 
-    const browser = await puppeteer.launch();
+    if (!html || typeof html !== "string") {
+      return res.status(400).json({ error: "Missing HTML content." });
+    }
+
+    browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"]
+    });
+
     const page = await browser.newPage();
 
-    await page.setContent(`
-      <html>
-        <body style="font-family: Arial; padding: 40px;">
-          ${html}
-        </body>
-      </html>
-    `);
+    await page.setContent(
+      `
+        <html>
+          <head>
+            <meta charset="UTF-8">
+            <style>
+              @page {
+                margin: 0;
+              }
 
-    const pdfBuffer = await page.pdf({ format: "A4" });
-    await browser.close();
+              body {
+                margin: 0;
+                padding: 0;
+                background: white;
+              }
+
+              .pdf-document {
+                width: fit-content;
+                margin: 0 auto;
+              }
+
+              .pdf-page {
+                page-break-after: always;
+                overflow: hidden;
+              }
+
+              .pdf-page:last-child {
+                page-break-after: auto;
+              }
+            </style>
+          </head>
+          <body>
+            ${html}
+          </body>
+        </html>
+      `,
+      { waitUntil: "domcontentloaded" }
+    );
+
+    const pdfBuffer = await page.pdf({
+      printBackground: true,
+      preferCSSPageSize: true
+    });
 
     incrementCounter();
 
@@ -34,14 +77,22 @@ app.post("/export", async (req, res) => {
     });
 
     res.send(pdfBuffer);
-  } catch (err) {
-    res.status(500).send("PDF generation failed");
+  } catch (error) {
+    console.error("PDF generation failed:", error);
+    res.status(500).json({
+      error: error && error.message ? error.message : "PDF generation failed"
+    });
+  } finally {
+    if (browser) {
+      await browser.close();
+    }
   }
 });
 
-// usage count
 app.get("/count", (req, res) => {
   res.json({ count: getCount() });
 });
 
-app.listen(5000, () => console.log("Backend running on port 5000"));
+app.listen(5000, () => {
+  console.log("Backend running on http://localhost:5000");
+});

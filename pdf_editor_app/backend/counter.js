@@ -1,16 +1,16 @@
 const fs = require("fs");
+const path = require("path");
 
-const FILE = "count.txt";
+const FILE = path.join(__dirname, "count.txt");
 
 function getCount() {
   if (!fs.existsSync(FILE)) return 0;
-  return parseInt(fs.readFileSync(FILE));
+  return parseInt(fs.readFileSync(FILE, "utf8"), 10) || 0;
 }
 
 function incrementCounter() {
-  let count = getCount();
-  count++;
-  fs.writeFileSync(FILE, count.toString());
+  const count = getCount() + 1;
+  fs.writeFileSync(FILE, count.toString(), "utf8");
 }
 
 module.exports = { getCount, incrementCounter };
