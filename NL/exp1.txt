@@ -1,0 +1,44 @@
+# Start virtual machines
+
+vstart pc1 --eth0=A
+vstart pc2 --eth0=B
+vstart r1 --eth0=A --eth1=B
+
+# Configure Router (r1)
+# On R1 terminal
+ifconfig eth0 192.168.0.1
+ifconfig eth1 192.168.1.1
+
+# Configure PC1
+# On PC1 terminal
+ifconfig eth0 192.168.0.2
+route add default gw 192.168.0.1
+
+# Configure PC2
+# On PC2 terminal
+ifconfig eth0 192.168.1.2
+route add default gw 192.168.1.1
+
+# ARP Testing Commands
+
+# On PC1 - View ARP table
+arp -e
+
+# On PC1 - Ping to see ARP in action
+ping 192.168.0.1
+ping 192.168.1.1
+ping 192.168.1.2
+
+# On PC1 - Check ARP table again
+arp -e
+
+# On PC2 - View ARP table
+arp -e
+
+# On PC2 - Ping tests
+ping 192.168.1.1
+ping 192.168.0.1
+ping 192.168.0.2
+
+# On PC2 - Check ARP table
+arp -e

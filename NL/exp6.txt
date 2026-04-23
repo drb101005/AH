@@ -1,0 +1,255 @@
+================================================================================
+                     EXPERIMENT No. 6 - NS2 FOR TCP AND UDP
+================================================================================
+
+========================== COMMANDS TO RUN ==========================
+
+1. Check NS2 installation:
+   ns
+
+2. Open NAM animator:
+   nam &
+
+3. Create/edit TCL script:
+   gedit exp6a.tcl
+
+4. Run the simulation:
+   ns exp6a.tcl
+
+5. View trace file:
+   gedit out.tr
+
+6. View NAM animation:
+   nam out.nam &
+
+================================================================================
+                          SCRIPT 1 - exp6a.tcl
+                 (UDP + TCP with 5 nodes - Connectionless + Connection Oriented)
+================================================================================
+
+# Create a Simulator
+set ns [new Simulator]
+
+# Create a trace file
+set mytrace [open out.tr w]
+$ns trace-all $mytrace
+
+# Create a NAM trace file
+set myNAM [open out.nam w]
+$ns namtrace-all $myNAM
+
+# Define a procedure finish
+proc finish {} {
+    global ns mytrace myNAM
+    $ns flush-trace
+    close $mytrace
+    close $myNAM
+    exec nam out.nam &
+    exit 0
+}
+
+# Create Nodes (5 nodes)
+set n0 [$ns node]
+set n1 [$ns node]
+set n2 [$ns node]
+set n3 [$ns node]
+set n4 [$ns node]
+
+# Connect Nodes with Links
+$ns duplex-link $n0 $n2 100Mb 5ms DropTail
+$ns duplex-link $n1 $n2 100Mb 5ms DropTail
+$ns duplex-link $n2 $n4 54Mb 10ms DropTail
+$ns duplex-link $n2 $n3 54Mb 10ms DropTail
+$ns simplex-link $n3 $n4 10Mb 15ms DropTail
+$ns queue-limit $n2 $n3 40
+
+# ==================== UDP (Connectionless) ====================
+set udp [new Agent/UDP]
+$ns attach-agent $n0 $udp
+
+set null [new Agent/Null]
+$ns attach-agent $n3 $null
+
+$ns connect $udp $null
+$udp set fid_ 1
+
+# CBR traffic source over UDP
+set cbr [new Application/Traffic/CBR]
+$cbr attach-agent $udp
+$cbr set packetSize_ 1000
+$cbr set rate_ 2Mb
+
+# ==================== TCP (Connection Oriented) ====================
+set tcp [new Agent/TCP]
+$ns attach-agent $n1 $tcp
+
+set sink [new Agent/TCPSink]
+$ns attach-agent $n4 $sink
+
+$ns connect $tcp $sink
+$tcp set fid_ 2
+
+# FTP session over TCP
+set ftp [new Application/FTP]
+$ftp attach-agent $tcp
+
+# Schedule events
+$ns at 0.05 "$ftp start"
+$ns at 0.1 "$cbr start"
+$ns at 60.0 "$ftp stop"
+$ns at 60.5 "$cbr stop"
+$ns at 61 "finish"
+
+# Run the simulation
+$ns run
+
+================================================================================
+                          SCRIPT 2 - exp6b.tcl
+                     (TCP vs UDP Comparison with Queue Limit)
+================================================================================
+
+set ns [new Simulator]
+
+$ns color 1 Blue
+$ns color 2 Red
+
+set nr [open apsit.tr w]
+$ns trace-all $nr
+
+set nf [open out.nam w]
+$ns namtrace-all $nf
+
+proc finish {} {
+    global ns nr nf
+    $ns flush-trace
+    close $nr 
+    close $nf 
+    exec nam out.nam &
+    exit 0
+}
+
+# Create 4 nodes
+set n0 [$ns node]
+set n1 [$ns node]
+set n2 [$ns node]
+set n3 [$ns node]
+
+# Create links
+$ns duplex-link $n0 $n2 2Mb 10ms DropTail
+$ns duplex-link $n1 $n2 2Mb 10ms DropTail
+$ns duplex-link $n2 $n3 1.7Mb 20ms DropTail
+
+# Set queue size (packet loss demonstration)
+$ns queue-limit $n2 $n3 10
+
+# NAM positioning
+$ns duplex-link-op $n0 $n2 orient right-down
+$ns duplex-link-op $n1 $n2 orient right-up
+$ns duplex-link-op $n2 $n3 orient right
+$ns duplex-link-op $n2 $n3 queuePos 0.5
+
+# ==================== TCP + FTP ====================
+set tcp [new Agent/TCP]
+$tcp set class_ 2
+$ns attach-agent $n0 $tcp
+set sink [new Agent/TCPSink]
+$ns attach-agent $n3 $sink
+$ns connect $tcp $sink
+$tcp set fid_ 1
+
+set ftp [new Application/FTP]
+$ftp attach-agent $tcp
+$ftp set type_ FTP
+
+# ==================== UDP + CBR ====================
+set udp [new Agent/UDP]
+$ns attach-agent $n1 $udp
+set null [new Agent/Null]
+$ns attach-agent $n3 $null
+$ns connect $udp $null
+$udp set fid_ 2
+
+set cbr [new Application/Traffic/CBR]
+$cbr attach-agent $udp
+$cbr set type_ CBR
+$cbr set packet_size_ 1000
+$cbr set rate_ 1mb
+$cbr set random_ false
+
+# Schedule events
+$ns at 0.1 "$cbr start"
+$ns at 1.0 "$ftp start"
+$ns at 4.0 "$ftp stop"
+$ns at 4.5 "$cbr stop"
+$ns at 4.5 "$ns detach-agent $n0 $tcp ; $ns detach-agent $n3 $sink"
+$ns at 5.0 "finish"
+
+puts "CBR packet size = [$cbr set packet_size_]"
+puts "CBR interval = [$cbr set interval_]"
+
+$ns run
+
+================================================================================
+                          EXECUTION STEPS
+================================================================================
+
+STEP 1: Create and save Script 1
+--------------------------------
+$ gedit exp6a.tcl
+  [Copy and paste Script 1 code above]
+  [Save and exit]
+
+STEP 2: Run Script 1
+--------------------
+$ ns exp6a.tcl
+
+STEP 3: View NAM animation for Script 1
+----------------------------------------
+$ nam out.nam &
+
+STEP 4: View trace file for Script 1
+-------------------------------------
+$ gedit out.tr
+
+STEP 5: Create and save Script 2
+---------------------------------
+$ gedit exp6b.tcl
+  [Copy and paste Script 2 code above]
+  [Save and exit]
+
+STEP 6: Run Script 2
+--------------------
+$ ns exp6b.tcl
+
+STEP 7: View NAM animation for Script 2
+----------------------------------------
+$ nam out.nam &
+
+================================================================================
+                          QUICK REFERENCE
+================================================================================
+
+| Command                    | Purpose                           |
+|----------------------------|-----------------------------------|
+| ns                         | Check NS2 installation            |
+| nam &                      | Open NAM animator                 |
+| gedit filename.tcl         | Create/edit TCL script            |
+| ns filename.tcl            | Run simulation                    |
+| nam out.nam &              | View NAM animation                |
+| gedit out.tr               | View trace file                   |
+
+================================================================================
+                          NETWORK TOPOLOGY
+================================================================================
+
+Script 1 Topology (5 nodes):
+        n0 --------- n2 --------- n4
+        |            |            |
+        |            |            |
+        n1 --------- n3 --------- (simplex link)
+
+Script 2 Topology (4 nodes):
+        n0 ---- n2 ---- n3
+        n1 ----/
+
+================================================================================

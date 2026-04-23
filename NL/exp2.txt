@@ -1,0 +1,37 @@
+# Start machines
+kathara vstart -n pc1 --eth 0:A
+kathara vstart -n pc2 --eth 0:C
+kathara vstart -n r1 --eth 0:A --eth 1:B
+kathara vstart -n r2 --eth 0:C --eth 1:B
+
+# Configure PC1
+kathara exec pc1 "ifconfig eth0 195.11.14.5/24 up"
+kathara exec pc1 "ifconfig"
+kathara exec pc1 "route -n"
+
+# Configure PC2
+kathara exec pc2 "ifconfig eth0 200.1.1.7/24 up"
+kathara exec pc2 "ifconfig"
+kathara exec pc2 "route -n"
+
+# Configure R1
+kathara exec r1 "ifconfig eth0 195.11.14.1/24 up"
+kathara exec r1 "ifconfig eth1 100.0.0.9/30 up"
+
+# Configure R2
+kathara exec r2 "ifconfig eth0 200.1.1.1/24 up"
+kathara exec r2 "ifconfig eth1 100.0.0.10/30 up"
+
+# Add static routes
+kathara exec r1 "route add -net 200.1.1.0 netmask 255.255.255.0 gw 100.0.0.10"
+kathara exec r2 "route add -net 195.11.14.0 netmask 255.255.255.0 gw 100.0.0.9"
+
+# Add default gateways on PCs
+kathara exec pc1 "route add default gw 195.11.14.1"
+kathara exec pc2 "route add default gw 200.1.1.1"
+
+# Test connectivity
+kathara exec pc1 "ping -c 4 200.1.1.7"
+
+# Clean up
+kathara vclean -a

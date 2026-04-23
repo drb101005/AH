@@ -1,0 +1,37 @@
+Step 1: Open Terminal 1 (Type this FIRST)
+
+sudo tcpdump -i lo -c10 -nn -vvv port 12345
+Press Enter - It will say "listening on lo" and wait.
+
+Step 2: Open Terminal 2 (Type this SECOND)
+
+nc -lvk 12345
+
+Press Enter - It will say "listening on [any] 12345"
+
+Step 3: Open Terminal 3 (Type this THIRD)
+
+telnet 127.0.0.1 12345
+
+Press Enter - Connection will happen immediately.
+
+Step 4: Watch Terminal 1
+You will see the 3-way handshake packets appear.
+
+text
+Packet 1: Flags [S]   (SYN)
+Packet 2: Flags [S.]  (SYN-ACK)
+Packet 3: Flags [.]   (ACK)
+Step 5: To exit
+
+Terminal 3: Type Ctrl+] then quit then Enter
+
+Terminal 2: Press Ctrl+C
+
+Terminal 1: It will auto-stop after 10 packets or press Ctrl+C
+
+For requirements a, b, c (run in Terminal 1):
+Requirement	Command (Type in Terminal 1)
+a) Filter any 10 packets	sudo tcpdump -i any -c10 -nn
+b) Filter by IP	sudo tcpdump -i any -c5 -nn host 192.168.25.68
+c) Verbose output	sudo tcpdump -i any -c10 -nn -vvv

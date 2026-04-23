@@ -1,0 +1,22 @@
+# Start Wireshark
+sudo wireshark
+
+# In Wireshark GUI:
+# Capture → Options → Manage Interfaces → Tick WiFi → Start
+
+# Display filters to apply one by one:
+
+ip.addr == YOUR_IP
+
+tcp
+
+arp
+
+tcp.flags.syn == 1 && tcp.flags.ack == 0
+
+tcp.flags.syn == 1 && tcp.flags.ack == 1
+
+tcp.flags.ack == 1 && tcp.flags.syn == 0
+
+# To see a full TCP stream:
+# Right-click on any TCP packet → Follow → TCP Stream

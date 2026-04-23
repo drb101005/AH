@@ -1,0 +1,42 @@
+# Start virtual machines
+kathara vstart -n pc1 --eth 0:A
+kathara vstart -n pc2 --eth 0:A
+kathara vstart -n pc3 --eth 0:B
+kathara vstart -n pc4 --eth 0:B
+kathara vstart -n router --eth 0:A --eth 1:B
+
+# Configure Router (gateway for both subnets)
+kathara exec router "ifconfig eth0 192.168.25.125/25 up"
+kathara exec router "ifconfig eth1 192.168.25.253/25 up"
+
+# Configure PC1 (Subnet 1 - First usable IP)
+kathara exec pc1 "ifconfig eth0 192.168.25.1/25 up"
+kathara exec pc1 "route add default gw 192.168.25.125"
+kathara exec pc1 "ifconfig"
+kathara exec pc1 "route -n"
+
+# Configure PC2 (Subnet 1 - Last usable IP before broadcast)
+kathara exec pc2 "ifconfig eth0 192.168.25.126/25 up"
+kathara exec pc2 "route add default gw 192.168.25.125"
+
+# Configure PC3 (Subnet 2)
+kathara exec pc3 "ifconfig eth0 192.168.25.129/25 up"
+kathara exec pc3 "route add default gw 192.168.25.253"
+
+# Configure PC4 (Subnet 2)
+kathara exec pc4 "ifconfig eth0 192.168.25.254/25 up"
+kathara exec pc4 "route add default gw 192.168.25.253"
+
+# Test connectivity within same subnet (should work)
+kathara exec pc1 "ping -c 2 192.168.25.126"
+
+# Test connectivity across subnets (requires router - should work)
+kathara exec pc1 "ping -c 2 192.168.25.129"
+kathara exec pc1 "ping -c 2 192.168.25.254"
+
+# View ARP tables
+kathara exec pc1 "arp -e"
+kathara exec pc3 "arp -e"
+
+# Clean up
+kathara vclean -a
