@@ -1,0 +1,46 @@
+1. Open Cisco Packet Tracer
+
+2. Add devices:
+   - 1 Router (1841)
+   - 2 PCs
+
+3. Connect:
+   - PC0 → Router0 (using Copper Straight-through - thunder/lightning logo on PC side)
+   - PC1 → Router0 (using Copper Straight-through)
+
+4. Configure PC0:
+   Click PC0 → Desktop → IP Configuration
+   IP Address: 192.168.1.2
+   Subnet Mask: 255.255.255.0
+   Default Gateway: 192.168.1.1
+
+5. Configure PC1:
+   Click PC1 → Desktop → IP Configuration
+   IP Address: 192.168.2.2
+   Subnet Mask: 255.255.255.0
+   Default Gateway: 192.168.2.1
+
+6. Configure Router:
+   Click Router0 → CLI → Press Enter
+
+   Router> enable
+   Router# configure terminal
+
+   Router(config)# interface fastEthernet 0/0
+   Router(config-if)# ip address 192.168.1.1 255.255.255.0
+   Router(config-if)# no shutdown
+   Router(config-if)# exit
+
+   Router(config)# interface fastEthernet 0/1
+   Router(config-if)# ip address 192.168.2.1 255.255.255.0
+   Router(config-if)# no shutdown
+   Router(config-if)# exit
+
+   Router(config)# exit
+   Router# copy running-config startup-config
+
+7. Test:
+   On PC0 → Desktop → Command Prompt
+   ping 192.168.1.1
+   ping 192.168.2.1
+   ping 192.168.2.2

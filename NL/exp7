@@ -1,0 +1,99 @@
+open terminal
+ns &
+nam &
+gedit routing.tcl
+ns routing.tcl
+
+#routing.tcl
+
+#Simulation program to generate connection oriented and connectionless traffic over given network which uses static and dynamic routing.
+
+#Create a simulator object
+set ns [new Simulator]
+
+#Open the Trace file
+set nr [open apsit.tr w]
+$ns trace-all $nr
+
+#Open the NAM trace file
+set nf [open apsit.nam w]
+$ns namtrace-all $nf
+
+#Define a 'finish' procedure
+proc finish { } {
+    global ns nr nf
+    $ns flush-trace
+    close $nf
+    close $nr
+    exec nam apsit.nam &
+    exit 0
+}
+
+#Create nodes using looping constructs (12 nodes)
+for { set i 0 } { $i < 12 } { incr i 1 } {
+    set n($i) [$ns node]
+}
+
+#Create links between the nodes
+for {set i 0} {$i < 8} {incr i} {
+    $ns duplex-link $n($i) $n([expr $i+1]) 2.0Mb 10ms DropTail
+}
+$ns duplex-link $n(0) $n(8) 2.0Mb 10ms DropTail
+$ns duplex-link $n(1) $n(10) 2.0Mb 10ms DropTail
+$ns duplex-link $n(0) $n(9) 2.0Mb 10ms DropTail
+$ns duplex-link $n(9) $n(11) 2.0Mb 10ms DropTail
+$ns duplex-link $n(10) $n(11) 2.0Mb 10ms DropTail
+$ns duplex-link $n(11) $n(5) 2.0Mb 10ms DropTail
+
+#Setup a UDP connection (Connectionless)
+set udp0 [new Agent/UDP]
+$ns attach-agent $n(0) $udp0
+
+#Setup a CBR over UDP connection
+set cbr0 [new Application/Traffic/CBR]
+$cbr0 set packetSize_ 500
+$cbr0 set interval_ 0.005
+$cbr0 attach-agent $udp0
+
+set null0 [new Agent/Null]
+$ns attach-agent $n(5) $null0
+$ns connect $udp0 $null0
+
+#Setup a TCP connection (Connection Oriented)
+set tcp [new Agent/TCP]
+$ns attach-agent $n(1) $tcp
+
+set sink [new Agent/TCPSink]
+$ns attach-agent $n(5) $sink
+$ns connect $tcp $sink
+
+#Setup a FTP over TCP connection
+set ftp [new Application/FTP]
+$ftp attach-agent $tcp
+
+#Dynamic Routing by using Distance Vector Routing Protocol
+$ns rtproto DV
+
+#Schedule events for link failure and recovery
+$ns rtmodel-at 3.0 down $n(11) $n(5)
+$ns rtmodel-at 5.0 down $n(7) $n(6)
+$ns rtmodel-at 7.0 up $n(11) $n(5)
+$ns rtmodel-at 9.0 up $n(7) $n(6)
+
+#Set Flow ID
+$udp0 set fid_ 1
+$tcp set fid_ 2
+
+#Set Colours to traffic Flows
+$ns color 1 Red
+$ns color 2 Blue
+
+#Schedule events for traffic start
+$ns at 1.0 "$cbr0 start"
+$ns at 2.0 "$ftp start"
+
+#Call the finish procedure after 12 seconds
+$ns at 12 "finish"
+
+#Run the simulation
+$ns run
