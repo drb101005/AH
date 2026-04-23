@@ -1,6 +1,14 @@
 open terminal
 packettracer
-Router 1841
+
+Router 1841 (use 2 routers - r1 and r2)
+Switch 2960 (use 2 switches)
+PC (use 4 PCs)
+
+Connections:
+PC0 and PC1 → Switch0 → r1 (FastEthernet0/0)
+PC2 and PC3 → Switch1 → r2 (FastEthernet0/0)
+r1 (Serial0/0/0) → r2 (Serial0/0/0)
 
 pc0
 ipv4: 192.168.1.2
@@ -40,6 +48,7 @@ network 10.0.0.0
 version 2
 exit
 exit
+copy running-config startup-config
 
 r2
 enable
@@ -58,3 +67,8 @@ network 10.0.0.0
 version 2
 exit
 exit
+copy running-config startup-config
+
+Test:
+On PC0 → ping 192.168.2.2
+On PC2 → ping 192.168.1.2

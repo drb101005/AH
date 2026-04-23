@@ -1,63 +1,78 @@
-// #server.c
+Steps to execute TCP Connection Oriented Application
+Open 3 terminals
+
+Terminal 1:
+sudo tcpdump -vvv -n -e -i lo port 7891
+
+Terminal 2:
+gcc serverc.c -o server
+./server
+
+Terminal 3:
+gcc clientc.c -o client
+./client
+text
+// serverc.c
 #include <stdio.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <string.h>
+
 int main(){
   int welcomeSocket, newSocket;
   char buffer[1024];
   struct sockaddr_in serverAddr;
   struct sockaddr_storage serverStorage;
   socklen_t addr_size;
+
   welcomeSocket = socket(PF_INET, SOCK_STREAM, 0);
+
   serverAddr.sin_family = AF_INET;
   serverAddr.sin_port = htons(7891);
   serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
   memset(serverAddr.sin_zero, '\0', sizeof serverAddr.sin_zero);  
+
   bind(welcomeSocket, (struct sockaddr *) &serverAddr, sizeof(serverAddr));
+
   if(listen(welcomeSocket,5)==0)
     printf("Listening\n");
   else
     printf("Error\n");
+
   addr_size = sizeof serverStorage;
   newSocket = accept(welcomeSocket, (struct sockaddr *) &serverStorage, &addr_size);
+
   strcpy(buffer,"Hello World\n");
   send(newSocket,buffer,13,0);
+
   return 0;
 }
-
-// #client.c
+text
+// clientc.c
 #include <stdio.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <string.h>
+
 int main(){
   int clientSocket;
   char buffer[1024];
   struct sockaddr_in serverAddr;
   socklen_t addr_size;
+
   clientSocket = socket(PF_INET, SOCK_STREAM, 0);
+
   serverAddr.sin_family = AF_INET;
   serverAddr.sin_port = htons(7891);
   serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
   memset(serverAddr.sin_zero, '\0', sizeof serverAddr.sin_zero);  
+
   addr_size = sizeof serverAddr;
   connect(clientSocket, (struct sockaddr *) &serverAddr, addr_size);
+
   recv(clientSocket, buffer, 1024, 0);
+
   printf("Data received: %s",buffer);
+
   return 0;
 }
-
-Steps to execute
-open 3 terminals
-
-1st terminal
-sudo tcpdump -vvv -n -e -i lo port 7891
-
-2nd terminal
-gcc server.c
-./a.out
-
-3rd terminal
-gcc client.c
-./a.out

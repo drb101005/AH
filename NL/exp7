@@ -29,7 +29,7 @@ proc finish { } {
     exit 0
 }
 
-#Create nodes using looping constructs (12 nodes)
+#Create nodes by using looping constructs
 for { set i 0 } { $i < 12 } { incr i 1 } {
     set n($i) [$ns node]
 }
@@ -45,7 +45,7 @@ $ns duplex-link $n(9) $n(11) 2.0Mb 10ms DropTail
 $ns duplex-link $n(10) $n(11) 2.0Mb 10ms DropTail
 $ns duplex-link $n(11) $n(5) 2.0Mb 10ms DropTail
 
-#Setup a UDP connection (Connectionless)
+#Setup a UDP connection
 set udp0 [new Agent/UDP]
 $ns attach-agent $n(0) $udp0
 
@@ -59,7 +59,7 @@ set null0 [new Agent/Null]
 $ns attach-agent $n(5) $null0
 $ns connect $udp0 $null0
 
-#Setup a TCP connection (Connection Oriented)
+#Setup a TCP connection
 set tcp [new Agent/TCP]
 $ns attach-agent $n(1) $tcp
 
@@ -74,7 +74,7 @@ $ftp attach-agent $tcp
 #Dynamic Routing by using Distance Vector Routing Protocol
 $ns rtproto DV
 
-#Schedule events for link failure and recovery
+#Schedule events for the CBR and FTP agents
 $ns rtmodel-at 3.0 down $n(11) $n(5)
 $ns rtmodel-at 5.0 down $n(7) $n(6)
 $ns rtmodel-at 7.0 up $n(11) $n(5)
@@ -88,11 +88,10 @@ $tcp set fid_ 2
 $ns color 1 Red
 $ns color 2 Blue
 
-#Schedule events for traffic start
 $ns at 1.0 "$cbr0 start"
 $ns at 2.0 "$ftp start"
 
-#Call the finish procedure after 12 seconds
+#Call the finish procedure after 12 seconds of simulation time
 $ns at 12 "finish"
 
 #Run the simulation
