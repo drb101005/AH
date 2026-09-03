@@ -1,5 +1,5 @@
 (async function groqQuizSolver() {
-  const API_KEY = "Your API Key Here"; // <-- REPLACE WITH YOUR GROQ API KEY
+  const API_KEY = ""; // <-- REPLACE WITH YOUR GROQ API KEY
   const MODEL   = "llama-3.3-70b-versatile";
 
   const sleep = ms => new Promise(r => setTimeout(r, ms));
