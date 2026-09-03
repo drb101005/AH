@@ -5,7 +5,7 @@
   // CONFIG
   // ============================================================
 
-  const API_KEY = "";
+  const API_KEY = "your api key";
 
   // Fast + inexpensive model
   const MODEL = "openai/gpt-oss-20b";
